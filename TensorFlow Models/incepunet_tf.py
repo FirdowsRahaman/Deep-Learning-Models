@@ -35,11 +35,9 @@ def downsample_block(x):
         (3, 3), strides=(1, 1), padding='same')(x)
     branch_pool = conv2d_bn(branch_pool, x_channel1, (1, 1), padding='same')
 
-    concat1 = layers.concatenate([branch5x5, branch3x3dbl, branch_pool], axis=-1)
-    res1 = conv2d_bn(x, x_channel0 * 2, (1, 1), padding='same')
-    res1 = concat1 + res1
-
-    return res1
+    concat = layers.concatenate([branch5x5, branch3x3dbl, branch_pool], axis=-1)
+    res = conv2d_bn(x, x_channel0 * 2, (1, 1), padding='same')
+    return concat + res
 
 
 def upsample_block(x, filters, down_conn):
