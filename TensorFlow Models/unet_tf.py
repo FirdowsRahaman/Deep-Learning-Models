@@ -19,8 +19,8 @@ def upsample_block(x, filters, down_conn):
     return up_conv2
 
 
-def unet_model():
-    input_layer = keras.Input(shape=(256, 256, 3))
+def unet_2d(input_shape=(256, 256, 3), num_labels=3):
+    input_layer = keras.Input(shape=input_shape)
 
     down1 = conv_block(input_layer, filters=64)
     pool1 = layers.MaxPooling2D(pool_size=(2,2))(down1)
@@ -37,7 +37,7 @@ def unet_model():
     up3 = upsample_block(up2, filters=128, down_conn=down2)
     up4 = upsample_block(up3, filters=64, down_conn=down1)
 
-    output = layers.Conv2D(1, 1, activation = 'sigmoid')(up4)
+    output = layers.Conv2D(num_labels, 1, activation = 'sigmoid')(up4)
     model = keras.Model(inputs=input_layer, outputs=output)
     
     model.compile(
