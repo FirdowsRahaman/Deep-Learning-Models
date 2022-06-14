@@ -9,7 +9,8 @@ def conv2d_bn(x, filters, kernel_size=(3, 3), strides=(1, 1), padding='valid', b
                       kernel_size=kernel_size, 
                       strides=strides, 
                       padding=padding, 
-                      use_bias=False)(
+                      use_bias=False,
+                      kernel_initializer='he_normal')(
                           x)
     x = layers.BatchNormalization(axis=bn_axis, scale=False)(x)
     x = layers.Activation('relu')(x)
